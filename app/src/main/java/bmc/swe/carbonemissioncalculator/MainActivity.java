@@ -20,21 +20,25 @@ import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
+    TextView q1;
+    TextView q2;
+
+    String []qs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         TextView tv = findViewById(R.id.tvWelcome);
-        TextView q1 = findViewById(R.id.Q1);
-        TextView q2 = findViewById(R.id.Q2);
+        q1 = findViewById(R.id.Q1);
+        q2 = findViewById(R.id.Q2);
 
-        String[] qs = new String[3];
+        qs = new String[10];
         try {
             ExecutorService executor = Executors.newSingleThreadExecutor();
             executor.execute( () -> {
                 try {
-                    URL url = new URL("http://10.0.2.2:3000/all");
+                    URL url = new URL("http://165.106.118.248:3000/all");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("GET");
                     conn.connect();
@@ -49,16 +53,15 @@ public class MainActivity extends AppCompatActivity {
 
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
-
                             // Extract values from the JSON object
                             String question = jsonObject.getString("question");
-
                             // Use the extracted values as needed
                             qs[i] = question;
                         }
 
                         q1.setText(qs[0]);
                         q2.setText(qs[1]);
+
 
                     } else {
                         Log.v("MainActivity", "Connection failed with response code: " + responseCode);
@@ -83,12 +86,19 @@ public class MainActivity extends AppCompatActivity {
         TextView answer2 = findViewById(R.id.a2);
         String answer2String = answer2.getText().toString();
 
+
+
         // Create an Intent to start SummaryActivity
         Intent intent = new Intent(this, SummaryActivity.class);
 
         // Pass the values as extras to the Intent
         intent.putExtra("ANSWER_1", answer1String);
         intent.putExtra("ANSWER_2", answer2String);
+
+        intent.putExtra("QUESTION_1", qs[0]);
+        intent.putExtra("QUESTION_2", qs[1]);
+
+
 
         // Start SummaryActivity
         startActivity(intent);
