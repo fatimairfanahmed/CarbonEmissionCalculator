@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                     // and that it has a /test endpoint that returns a JSON object with
                     // a field called "message"
                     //you are connecting to a website not a database
-                    URL url = new URL("http://165.106.126.48:3000/allProfiles");
+                    URL url = new URL("http://165.106.118.248:3000/allProfiles");
 
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("GET");

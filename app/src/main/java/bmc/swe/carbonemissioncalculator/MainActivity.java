@@ -2,6 +2,7 @@ package bmc.swe.carbonemissioncalculator;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,7 +24,13 @@ public class MainActivity extends AppCompatActivity {
     TextView q1;
     TextView q2;
 
+    TextView q3;
+    TextView q4;
+    TextView q5;
+
+
     String []qs;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +39,11 @@ public class MainActivity extends AppCompatActivity {
         TextView tv = findViewById(R.id.tvWelcome);
         q1 = findViewById(R.id.Q1);
         q2 = findViewById(R.id.Q2);
+        q3 = findViewById(R.id.Q3);
+        q4 = findViewById(R.id.Q4);
+        q5 = findViewById(R.id.Q5);
+
+
 
         qs = new String[10];
         try {
@@ -61,6 +73,12 @@ public class MainActivity extends AppCompatActivity {
 
                         q1.setText(qs[0]);
                         q2.setText(qs[1]);
+                        q3.setText(qs[2]);
+                        q4.setText(qs[3]);
+                        q5.setText(qs[4]);
+
+
+
 
 
                     } else {
@@ -86,6 +104,15 @@ public class MainActivity extends AppCompatActivity {
         TextView answer2 = findViewById(R.id.a2);
         String answer2String = answer2.getText().toString();
 
+        TextView answer3 = findViewById(R.id.a3);
+        String answer3String = answer2.getText().toString();
+
+        TextView answer4 = findViewById(R.id.a4);
+        String answer4String = answer2.getText().toString();
+
+        TextView answer5 = findViewById(R.id.a5);
+        String answer5String = answer2.getText().toString();
+
 
 
         // Create an Intent to start SummaryActivity
@@ -94,9 +121,16 @@ public class MainActivity extends AppCompatActivity {
         // Pass the values as extras to the Intent
         intent.putExtra("ANSWER_1", answer1String);
         intent.putExtra("ANSWER_2", answer2String);
+        intent.putExtra("ANSWER_3", answer3String);
+        intent.putExtra("ANSWER_4", answer4String);
+        intent.putExtra("ANSWER_5", answer5String);
+
 
         intent.putExtra("QUESTION_1", qs[0]);
         intent.putExtra("QUESTION_2", qs[1]);
+        intent.putExtra("QUESTION_3", qs[2]);
+        intent.putExtra("QUESTION_4", qs[3]);
+        intent.putExtra("QUESTION_5", qs[4]);
 
 
 
