@@ -15,30 +15,30 @@
 
 
         <TextView
+            android:id="@+id/box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textSize="30dp"
-            android:text="Welcome!" />
-
-        <TextView
-            android:id="@+id/msg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="17dp"
-            android:text="Please Log In or Sign Up to continue" />
+            android:textSize="33dp"
+            android:text="Create an account" />
 
         <EditText
-            android:id="@+id/user"
-            android:layout_width="600px"
+            android:id="@+id/user2"
+            android:layout_width="700px"
             android:layout_height="150px"
             android:hint="username"
             android:inputType="text" />
 
         <EditText
+            android:id="@+id/email"
+            android:layout_width="700px"
+            android:layout_height="150px"
+            android:hint="email"
+            android:inputType="text" />
+
+        <EditText
             android:id="@+id/pass"
-            android:layout_width="600px"
+            android:layout_width="700px"
             android:layout_height="150px"
             android:hint="password"
             android:inputType="text" />
@@ -50,30 +50,13 @@
             android:gravity="center"/>
 
 
-
-
-
-
-
-
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="clickLogin"
-            android:text="Log in" />
+            android:onClick="clickCreate"
+            android:text="Create" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="clickSignUp"
-            android:text="Sign Up" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="12dp"
-            android:text="Jenii Fabian Dubon, Fatima Irfan, Abbi Marmer-Adams" />
 
     </LinearLayout>
 
