@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,17 +33,19 @@ public class SignupActivity extends AppCompatActivity {
     EditText user2;
     EditText pass2;
     EditText email;
+    boolean taken = false;
 
 
 
     ArrayList<String> profiles = new ArrayList<>();
-    ArrayList<String> passwords = new ArrayList<>();
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+        Intent intent = getIntent();
+        profiles = intent.getStringArrayListExtra("profs");
 
         user2 = findViewById(R.id.user2);
         pass2 = findViewById(R.id.pass);
@@ -65,11 +68,9 @@ public class SignupActivity extends AppCompatActivity {
                 try {
 
                     if(userExists(entUsr).compareTo("false") == 0){
-                        //create a new account
-
-                        //?userName=dsf&email=Emaildfsfd&password=sdf
+                        System.out.println("false");
                         String create = "userName=" + entUsr + "&email=" + entEml + "&password=" + entPwd;
-                        URLConnection postUrl = new URL("http://165.106.118.248:3000/createprof" + "?" + create).openConnection();
+                        URLConnection postUrl = new URL("http://165.106.126.48:3000/createprof" + "?" + create).openConnection();
                         postUrl.setRequestProperty("Accept-Charset", create);
                         InputStream doit = postUrl.getInputStream();
 
@@ -78,13 +79,11 @@ public class SignupActivity extends AppCompatActivity {
                         startActivity(intent);
                     }else{
                         //Username taken
-                        tv.setText("Username taken");
+                        System.out.println("true");
+                        taken = true;
                     }
-
-
                 } catch (Exception e) {
                     e.printStackTrace();
-                    //message[0] = e.toString();
                     message[0] = e.toString();
                 }
             });
@@ -95,12 +94,20 @@ public class SignupActivity extends AppCompatActivity {
             // but it should be okay for our purposes (and is a lot easier)
             executor.awaitTermination(3, TimeUnit.SECONDS);
 
-            // now we can set the status in the TextView
-            tv.setText(message[0]);
+
+            if(taken){
+                System.out.println("taken true");
+                Toast.makeText(getApplicationContext(), "Username Taken", Toast.LENGTH_LONG).show();
+                taken = false;
+
+                user2.setText("");
+                pass2.setText("");
+                email.setText("");
+            }
         } catch (Exception e) {
-            // uh oh
             e.printStackTrace();
             tv.setText(e.toString());
+            System.out.println(e.toString());
         }
 
     }
@@ -109,7 +116,8 @@ public class SignupActivity extends AppCompatActivity {
         String result = "false";
         for(int i = 0; i < profiles.size(); i++){
             if (profiles.get(i).compareTo(eUserN) == 0){
-                result = passwords.get(i);
+                result = "true";
+                System.out.println("here");
             }
         }
         return result;

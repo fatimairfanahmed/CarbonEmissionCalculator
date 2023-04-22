@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     TextView q4;
     TextView q5;
 
+    String user;
+
 
     String []qs;
     @SuppressLint("MissingInflatedId")
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Intent intent = getIntent();
+        user = intent.getStringExtra("userName");
 
         TextView tv = findViewById(R.id.tvWelcome);
         q1 = findViewById(R.id.Q1);
@@ -50,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             ExecutorService executor = Executors.newSingleThreadExecutor();
             executor.execute( () -> {
                 try {
-                    URL url = new URL("http://165.106.118.248:3000/all");
+                    URL url = new URL("http://165.106.126.48:3000/all");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("GET");
                     conn.connect();
@@ -131,6 +135,8 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("QUESTION_3", qs[2]);
         intent.putExtra("QUESTION_4", qs[3]);
         intent.putExtra("QUESTION_5", qs[4]);
+
+        intent.putExtra("userName", user);
 
 
 

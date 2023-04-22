@@ -24,7 +24,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class SummaryActivity extends AppCompatActivity {
-
+    String user;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -46,6 +46,7 @@ public class SummaryActivity extends AppCompatActivity {
         String q3 = getIntent().getStringExtra("QUESTION_3");
         String q4 = getIntent().getStringExtra("QUESTION_4");
         String q5 = getIntent().getStringExtra("QUESTION_5");
+        user = getIntent().getStringExtra("userName");
 
 
 
@@ -61,28 +62,27 @@ public class SummaryActivity extends AppCompatActivity {
 
         activ1.setText("Question 1: "+ q1 + "Answer : " + answer1);
         activ2.setText("Question 2: " +q2 + "Answer : " + answer2);
-        activ3.setText("Question 2: " +q3 + "Answer : " + answer3);
-        activ4.setText("Question 2: " +q4 + "Answer : " + answer4);
-        activ5.setText("Question 2: " +q5 + "Answer : " + answer5);
+        activ3.setText("Question 3: " +q3 + "Answer : " + answer3);
+        activ4.setText("Question 4: " +q4 + "Answer : " + answer4);
+        activ5.setText("Question 5: " +q5 + "Answer : " + answer5);
 
         String[] questionList = {q1, q2, q3, q4, q5  };
 
         String[] answerList = {answer1, answer2, answer3, answer4, answer5  };
-/*    this is the stuff to add to databse but were having issues with duplicates
+   // this is the stuff to add to database but were having issues with duplicates
         try {
             ExecutorService executor = Executors.newSingleThreadExecutor();
             executor.execute(() -> {
                 try {
-                    //for(int i =0; i < questionList.length; i++ ) {
-                         String create = "answerQuestion=" + q2 + "&answerText=" + answer2 + "&answerNumber=" + "100";
-                      // String create = "answerQuestion=" + questionList[i] + "&answerText=" + answerList[i] + "&answerNumber=" + "100";
-                        URLConnection postUrl = new URL("http://165.106.118.248:3000/AddAnswer" + "?" + create).openConnection();
+                    for(int i =0; i < questionList.length; i++ ) {
+                         //String create = "answerQuestion=" + q2 + "&answerText=" + answer2 + "&answerNumber=" + "100";
+                      String create = "answerQuestion=" + questionList[i] + "&answerText=" + answerList[i] + "&answerNumber=" + "300" +"&user=" + user + "&date=" + "19990825";
+                        URLConnection postUrl = new URL("http://165.106.126.48:3000/AddAnswer" + "?" + create).openConnection();
                         postUrl.setRequestProperty("Accept-Charset", create);
                         InputStream doit = postUrl.getInputStream();
 
-                    Intent intent = new Intent(SummaryActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    //}
+
+                         }
                     } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 } catch (Exception e) {
@@ -100,7 +100,9 @@ public class SummaryActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
- */
+        //Intent intent = new Intent(SummaryActivity.this, MainActivity.class);
+        //startActivity(intent);
+
 
 
 
@@ -112,14 +114,6 @@ public class SummaryActivity extends AppCompatActivity {
             if(hold.getText().toString().contains("y")){
                 m++;
             }
-        }
-        int n = 0;
-        if (answer1.contains("y") && answer2.contains("y") && answer3.contains("y") && answer4.contains("y") && answer5.contains("y") ) {
-            n = 2;
-        } else if (answer1.contains("y") || answer2.contains("y") || answer3.contains("y") || answer4.contains("y") || answer5.contains("y")) {
-            n = 1;
-        } else {
-            n = 0;
         }
         int co2 = calculateCarbonEmis(m);
 
@@ -145,7 +139,7 @@ public class SummaryActivity extends AppCompatActivity {
                 EditText newAnswer4 = new EditText(SummaryActivity.this);
                 newAnswer4.setHint("Enter Answer 4 (y/n)");
                 EditText newAnswer5 = new EditText(SummaryActivity.this);
-                newAnswer5.setHint("Enter Answer 1 (y/n)");
+                newAnswer5.setHint("Enter Answer 5 (y/n)");
 
                 LinearLayout layout = new LinearLayout(SummaryActivity.this);
                 layout.setOrientation(LinearLayout.VERTICAL);
@@ -283,6 +277,12 @@ public class SummaryActivity extends AppCompatActivity {
         int totalEmis = 100;
         totalEmis = totalEmis * (n );
         return totalEmis;
+    }
+
+    public void clickHistory(View v){
+        Intent graph = new Intent(SummaryActivity.this, GraphActivity.class);
+        graph.putExtra("userName", user);
+        startActivity(graph);
     }
 
 }
