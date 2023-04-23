@@ -70,7 +70,7 @@ public class SignupActivity extends AppCompatActivity {
                     if(userExists(entUsr).compareTo("false") == 0){
                         System.out.println("false");
                         String create = "userName=" + entUsr + "&email=" + entEml + "&password=" + entPwd;
-                        URLConnection postUrl = new URL("http://165.106.126.48:3000/createprof" + "?" + create).openConnection();
+                        URLConnection postUrl = new URL("http://165.106.118.248:3000/createprof" + "?" + create).openConnection();
                         postUrl.setRequestProperty("Accept-Charset", create);
                         InputStream doit = postUrl.getInputStream();
 

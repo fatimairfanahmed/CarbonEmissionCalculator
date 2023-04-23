@@ -33,11 +33,11 @@ public class SummaryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_summary);
 
         // Retrieve the values from the Intent
-        String answer1 = getIntent().getStringExtra("ANSWER_1");
-        String answer2 = getIntent().getStringExtra("ANSWER_2");
-        String answer3 = getIntent().getStringExtra("ANSWER_3");
-        String answer4 = getIntent().getStringExtra("ANSWER_4");
-        String answer5 = getIntent().getStringExtra("ANSWER_5");
+        final String[] answer1 = {getIntent().getStringExtra("ANSWER_1")};
+        final String[] answer2 = {getIntent().getStringExtra("ANSWER_2")};
+        final String[] answer3 = {getIntent().getStringExtra("ANSWER_3")};
+        final String[] answer4 = {getIntent().getStringExtra("ANSWER_4")};
+        final String[] answer5 = {getIntent().getStringExtra("ANSWER_5")};
 
 
 
@@ -60,15 +60,15 @@ public class SummaryActivity extends AppCompatActivity {
 
 
 
-        activ1.setText("Question 1: "+ q1 + "Answer : " + answer1);
-        activ2.setText("Question 2: " +q2 + "Answer : " + answer2);
-        activ3.setText("Question 3: " +q3 + "Answer : " + answer3);
-        activ4.setText("Question 4: " +q4 + "Answer : " + answer4);
-        activ5.setText("Question 5: " +q5 + "Answer : " + answer5);
+        activ1.setText("Question 1: "+ q1 + "Answer : " + answer1[0]);
+        activ2.setText("Question 2: " +q2 + "Answer : " + answer2[0]);
+        activ3.setText("Question 3: " +q3 + "Answer : " + answer3[0]);
+        activ4.setText("Question 4: " +q4 + "Answer : " + answer4[0]);
+        activ5.setText("Question 5: " +q5 + "Answer : " + answer5[0]);
 
         String[] questionList = {q1, q2, q3, q4, q5  };
 
-        String[] answerList = {answer1, answer2, answer3, answer4, answer5  };
+        String[] answerList = {answer1[0], answer2[0], answer3[0], answer4[0], answer5[0]  };
    // this is the stuff to add to database but were having issues with duplicates
         try {
             ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -77,7 +77,7 @@ public class SummaryActivity extends AppCompatActivity {
                     for(int i =0; i < questionList.length; i++ ) {
                          //String create = "answerQuestion=" + q2 + "&answerText=" + answer2 + "&answerNumber=" + "100";
                       String create = "answerQuestion=" + questionList[i] + "&answerText=" + answerList[i] + "&answerNumber=" + "300" +"&user=" + user + "&date=" + "19990825";
-                        URLConnection postUrl = new URL("http://165.106.126.48:3000/AddAnswer" + "?" + create).openConnection();
+                        URLConnection postUrl = new URL("http://165.106.118.248:3000/AddAnswer" + "?" + create).openConnection();
                         postUrl.setRequestProperty("Accept-Charset", create);
                         InputStream doit = postUrl.getInputStream();
 
@@ -125,21 +125,30 @@ public class SummaryActivity extends AppCompatActivity {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //implements the Edit button
+                // implements the Edit button
                 AlertDialog.Builder builder = new AlertDialog.Builder(SummaryActivity.this);
                 builder.setTitle("Edit Answers");
 
                 // Add EditText for new answers
                 EditText newAnswer1 = new EditText(SummaryActivity.this);
                 newAnswer1.setHint("Enter Answer 1 (y/n)");
+                newAnswer1.setText(answer1[0]);
+
                 EditText newAnswer2 = new EditText(SummaryActivity.this);
                 newAnswer2.setHint("Enter Answer 2 (y/n)");
+                newAnswer2.setText(answer2[0]);
+
                 EditText newAnswer3 = new EditText(SummaryActivity.this);
                 newAnswer3.setHint("Enter Answer 3 (y/n)");
+                newAnswer3.setText(answer3[0]);
+
                 EditText newAnswer4 = new EditText(SummaryActivity.this);
                 newAnswer4.setHint("Enter Answer 4 (y/n)");
+                newAnswer4.setText(answer4[0]);
+
                 EditText newAnswer5 = new EditText(SummaryActivity.this);
                 newAnswer5.setHint("Enter Answer 5 (y/n)");
+                newAnswer5.setText(answer5[0]);
 
                 LinearLayout layout = new LinearLayout(SummaryActivity.this);
                 layout.setOrientation(LinearLayout.VERTICAL);
@@ -149,62 +158,80 @@ public class SummaryActivity extends AppCompatActivity {
                 layout.addView(newAnswer4);
                 layout.addView(newAnswer5);
 
-
                 builder.setView(layout);
 
                 builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Get new answers from EditText
-                        String newAnswer1String = newAnswer1.getText().toString();
-                        String newAnswer2String = newAnswer2.getText().toString();
-                        String newAnswer3String = newAnswer3.getText().toString();
-                        String newAnswer4String = newAnswer4.getText().toString();
-                        String newAnswer5String = newAnswer5.getText().toString();
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Save the new answers
+                        String updatedAnswer1 = newAnswer1.getText().toString().trim();
+                        String updatedAnswer2 = newAnswer2.getText().toString().trim();
+                        String updatedAnswer3 = newAnswer3.getText().toString().trim();
+                        String updatedAnswer4 = newAnswer4.getText().toString().trim();
+                        String updatedAnswer5 = newAnswer5.getText().toString().trim();
 
+                        // Update the text views with the new answers
+                        activ1.setText("Question 1: " + q1 + "Answer : " + updatedAnswer1);
+                        activ2.setText("Question 2: " + q2 + "Answer : " + updatedAnswer2);
+                        activ3.setText("Question 3: " + q3 + "Answer : " + updatedAnswer3);
+                        activ4.setText("Question 4: " + q4 + "Answer : " + updatedAnswer4);
+                        activ5.setText("Question 5: " + q5 + "Answer : " + updatedAnswer5);
 
-                        /* i also tried doind the list from delete here but it looks kinda weird  */
+                        // Recalculate
+                        String[] answerList = {updatedAnswer1, updatedAnswer2, updatedAnswer3, updatedAnswer4, updatedAnswer5};
 
-
-                        // Update the TextViews with new answers
-                        activ1.setText(q1 + newAnswer1String);
-                        activ2.setText(q2 +newAnswer2String);
-                        activ3.setText(q3 +newAnswer3String);
-                        activ4.setText(q4 +newAnswer4String);
-                        activ5.setText(q5 +newAnswer5String);
-
-                        // this Recalculates carbon footprint
-                        TextView[] textViews = {activ1, activ2, activ3, activ4, activ5};
+                        // Calculate new Carbon emission value
                         int m = 0;
-                        for(int i = 0; i < textViews.length; i++){
-                            TextView hold = textViews[i];
-                            if(hold.getText().toString().contains("y")){
+                        for(int i = 0; i < answerList.length; i++){
+                            if(answerList[i].equals("y")){
                                 m++;
                             }
                         }
-                        int n = 0;
-                        if (newAnswer1String.contains("y") && newAnswer2String.contains("y") && newAnswer3String.contains("y") && newAnswer4String.contains("y") && newAnswer5String.contains("y") ) {
-                            n = 2;
-                        } else if (newAnswer1String.contains("y") || newAnswer2String.contains("y") || newAnswer3String.contains("y") || newAnswer4String.contains("y") || newAnswer5String.contains("y")) {
-                            n = 1;
-                        } else {
-                            n = 0;
-                        }
                         int co2 = calculateCarbonEmis(m);
+
+                        TextView displayEmis = findViewById(R.id.tvC02);
                         displayEmis.setText(" " + co2 + " ");
+
+                        answer1[0] = updatedAnswer1;
+                        answer2[0] = updatedAnswer2;
+                        answer3[0] = updatedAnswer3;
+                        answer4[0] = updatedAnswer4;
+                        answer5[0] = updatedAnswer5;
+
+                        try {
+                            ExecutorService executor = Executors.newSingleThreadExecutor();
+                            executor.execute(() -> {
+                                try {
+                                    for (int i = 0; i < answerList.length; i++) {
+                                        String update = "answerQuestion=" + questionList[i] + "&answerText=" + answerList[i] + "&answerNumber=" + "300" + "&user=" + user + "&date=" + "19990825";
+                                        URLConnection postUrl = new URL("http://165.106.118.248:3000/editAnswer" + "?" + update).openConnection();
+                                        postUrl.setRequestProperty("Accept-Charset", update);
+                                        InputStream doit = postUrl.getInputStream();
+                                    }
+                                } catch (IOException ex) {
+                                    throw new RuntimeException(ex);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            });
+                            executor.awaitTermination(3, TimeUnit.SECONDS);
+
+                        } catch (Exception e) {
+                            // uh oh
+                            e.printStackTrace();
+                        }
+
                     }
+
                 });
 
+
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Cancel the edit
-                        dialog.dismiss();
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Do nothing
                     }
                 });
 
                 builder.show();
-
             }
         });
 

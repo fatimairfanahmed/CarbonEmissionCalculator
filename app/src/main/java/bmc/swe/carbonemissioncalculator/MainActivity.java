@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             ExecutorService executor = Executors.newSingleThreadExecutor();
             executor.execute( () -> {
                 try {
-                    URL url = new URL("http://165.106.126.48:3000/all");
+                    URL url = new URL("http://165.106.118.248:3000/all");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("GET");
                     conn.connect();
