@@ -3,8 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/fatim/Documents/swe/CarbonEmissionCalculator/app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="..\:/Users/fatim/Documents/swe/CarbonEmissionCalculator/app/src/main/res/layout/activity_summary.xml" value="0.25" />
+        <entry key="..\:/Users/fatim/Documents/swe/CarbonEmissionCalculator/app/src/main/res/drawable/lilac_background.xml" value="0.1815" />
+        <entry key="..\:/Users/fatim/Documents/swe/CarbonEmissionCalculator/app/src/main/res/layout/activity_graph.xml" value="0.25" />
+        <entry key="..\:/Users/fatim/Documents/swe/CarbonEmissionCalculator/app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="..\:/Users/fatim/Documents/swe/CarbonEmissionCalculator/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Users/fatim/Documents/swe/CarbonEmissionCalculator/app/src/main/res/layout/activity_signup.xml" value="0.25" />
+        <entry key="..\:/Users/fatim/Documents/swe/CarbonEmissionCalculator/app/src/main/res/layout/activity_summary.xml" value="0.264" />
       </map>
     </option>
   </component>
