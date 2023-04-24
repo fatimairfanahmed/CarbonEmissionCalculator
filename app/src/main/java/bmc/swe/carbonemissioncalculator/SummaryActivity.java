@@ -332,4 +332,9 @@ public class SummaryActivity extends AppCompatActivity {
         startActivity(graph);
     }
 
+    public void clickAllActivities(View v){
+        Intent history = new Intent(SummaryActivity.this, HistoryActivity.class);
+        history.putExtra("userName", user);
+        startActivity(history);
+    }
 }

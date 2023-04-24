@@ -21,4 +21,9 @@ public class Answer {
     public String getAnswerQuestion(){return this.answerQuestion;}
     public String getDate(){ return this.date;}
     public String getAnswerNumber(){return this.answerNumber;}
+
+    public String toString(){
+        String str = "Question: " + this.answerQuestion + "\n Date: " + this.date + " response: " + this.answerText;
+        return str;
+    }
 }
