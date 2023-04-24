@@ -77,7 +77,7 @@ public class SummaryActivity extends AppCompatActivity {
                     for(int i =0; i < questionList.length; i++ ) {
                          //String create = "answerQuestion=" + q2 + "&answerText=" + answer2 + "&answerNumber=" + "100";
                       String create = "answerQuestion=" + questionList[i] + "&answerText=" + answerList[i] + "&answerNumber=" + "300" +"&user=" + user + "&date=" + "19990825";
-                        URLConnection postUrl = new URL("http://165.106.118.248:3000/AddAnswer" + "?" + create).openConnection();
+                        URLConnection postUrl = new URL("http://165.106.126.48:3000/AddAnswer" + "?" + create).openConnection();
                         postUrl.setRequestProperty("Accept-Charset", create);
                         InputStream doit = postUrl.getInputStream();
 
