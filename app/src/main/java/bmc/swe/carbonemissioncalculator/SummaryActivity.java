@@ -255,6 +255,7 @@ public class SummaryActivity extends AppCompatActivity {
                         for (int i = 0; i < textViews.length; i++) {
                             if (which == i) {
                                 textViews[i].setText("");
+                                deleteAnswerFromDatabase(questionList[i], answerList[i], user);
                             }
                         }
 
@@ -273,18 +274,35 @@ public class SummaryActivity extends AppCompatActivity {
                                 m++;
                             }
                         }
-                        int n = 0;
-                        if (newAnswer1String.contains("y") && newAnswer2String.contains("y") && newAnswer3String.contains("y")&& newAnswer4String.contains("y") && newAnswer5String.contains("y")) {
-                            n = 2;
-                        } else if (newAnswer1String.contains("y") || newAnswer2String.contains("y") || newAnswer3String.contains("y") || newAnswer4String.contains("y") || newAnswer5String.contains("y")) {
-                            n = 1;
-                        } else {
-                            n = 0;
-                        }
+
                         int co2 = calculateCarbonEmis(m);
                         displayEmis.setText(" " + co2 + " ");
                     }
+
+                    private void deleteAnswerFromDatabase(String question, String answer, String user) {
+                        try {
+                            ExecutorService executor = Executors.newSingleThreadExecutor();
+                            executor.execute(() -> {
+                                try {
+                                    String delete = "answerQuestion=" + question + "&answerText=" + answer + "&user=" + user;
+                                    URLConnection postUrl = new URL("http://165.106.118.248:3000/deleteAnswer" + "?" + delete).openConnection();
+                                    postUrl.setRequestProperty("Accept-Charset", delete);
+                                    InputStream doit = postUrl.getInputStream();
+                                } catch (IOException ex) {
+                                    throw new RuntimeException(ex);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            });
+                            executor.awaitTermination(3, TimeUnit.SECONDS);
+
+                        } catch (Exception e) {
+                            // uh oh
+                            e.printStackTrace();
+                        }
+                    }
                 });
+
 
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -298,6 +316,8 @@ public class SummaryActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
 
     public int calculateCarbonEmis(int n) {
