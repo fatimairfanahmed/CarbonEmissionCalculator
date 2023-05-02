@@ -13,24 +13,29 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import java.util.Date;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
+import java.time.Clock;
 import java.net.URL;
 import java.net.URLConnection;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class SummaryActivity extends AppCompatActivity {
     String user;
-
+    String date = new Date().toString().substring(0, 10);
+    //String date = "Sat Apr 29";
+    String date = "Tue May 02";
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary);
+
 
         // Retrieve the values from the Intent
         final String[] answer1 = {getIntent().getStringExtra("ANSWER_1")};
@@ -76,7 +81,7 @@ public class SummaryActivity extends AppCompatActivity {
                 try {
                     for(int i =0; i < questionList.length; i++ ) {
                          //String create = "answerQuestion=" + q2 + "&answerText=" + answer2 + "&answerNumber=" + "100";
-                      String create = "answerQuestion=" + questionList[i] + "&answerText=" + answerList[i] + "&answerNumber=" + "300" +"&user=" + user + "&date=" + "19990825";
+                      String create = "answerQuestion=" + questionList[i] + "&answerText=" + answerList[i] + "&answerNumber=" + "300" +"&user=" + user + "&date=" + date;
                         URLConnection postUrl = new URL("http://165.106.126.48:3000/AddAnswer" + "?" + create).openConnection();
                         postUrl.setRequestProperty("Accept-Charset", create);
                         InputStream doit = postUrl.getInputStream();
@@ -202,8 +207,8 @@ public class SummaryActivity extends AppCompatActivity {
                             executor.execute(() -> {
                                 try {
                                     for (int i = 0; i < answerList.length; i++) {
-                                        String update = "answerQuestion=" + questionList[i] + "&answerText=" + answerList[i] + "&answerNumber=" + "300" + "&user=" + user + "&date=" + "19990825";
-                                        URLConnection postUrl = new URL("http://165.106.118.248:3000/editAnswer" + "?" + update).openConnection();
+                                        String update = "answerQuestion=" + questionList[i] + "&answerText=" + answerList[i] + "&answerNumber=" + "300" + "&user=" + user + "&date=" + "19990824";
+                                        URLConnection postUrl = new URL("http://165.106.126.48:3000/editAnswer" + "?" + update).openConnection();
                                         postUrl.setRequestProperty("Accept-Charset", update);
                                         InputStream doit = postUrl.getInputStream();
                                     }
@@ -285,7 +290,7 @@ public class SummaryActivity extends AppCompatActivity {
                             executor.execute(() -> {
                                 try {
                                     String delete = "answerQuestion=" + question + "&answerText=" + answer + "&user=" + user;
-                                    URLConnection postUrl = new URL("http://165.106.118.248:3000/deleteAnswer" + "?" + delete).openConnection();
+                                    URLConnection postUrl = new URL("http://165.106.126.48:3000/deleteAnswer" + "?" + delete).openConnection();
                                     postUrl.setRequestProperty("Accept-Charset", delete);
                                     InputStream doit = postUrl.getInputStream();
                                 } catch (IOException ex) {
